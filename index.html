@@ -3,147 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestra Agenda de Amor</title>
+  <title>Nuestra Agenda ❤️</title>
   <link rel="stylesheet" href="styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
   <!-- PANTALLA DE LOGIN -->
-  <div id="login-screen" class="card-container">
-    <div class="login-box">
-      <div class="heart-icon">❤️</div>
-      <h2>Nuestro Rincón Especial</h2>
-      <p class="sub-text">Ingresa tu cuenta para acceder a tu agenda</p>
-      
+  <div id="login-screen" class="screen">
+    <div class="card login-card">
+      <div class="heart-icon">💖</div>
+      <h2>Nuestra Agenda</h2>
+      <p class="subtitle">Inicia sesión para ver nuestros planes</p>
       <form id="login-form">
-        <div class="input-group">
-          <input type="email" id="email" placeholder="Correo electrónico" required>
-        </div>
-        <div class="input-group">
-          <input type="password" id="password" placeholder="Contraseña" required>
-        </div>
-        <button type="submit" class="btn-primary">Entrar con Amor ✨</button>
+        <input type="email" id="email" placeholder="Correo electrónico" required />
+        <input type="password" id="password" placeholder="Contraseña" required />
+        <button type="submit" class="btn-primary">Ingresar ✨</button>
       </form>
-      <p id="auth-error" class="error-msg"></p>
+      <div id="auth-error" class="error-msg"></div>
     </div>
   </div>
 
-  <!-- PANTALLA PRINCIPAL (DASHBOARD) -->
-  <div id="app-screen" class="app-container hidden">
-    <header class="header">
-      <div class="time-box">
-        <span class="label">Hora Perú (PET):</span>
-        <span id="peru-clock">00:00:00 AM</span>
-        <button id="open-chat-btn" class="btn-love-chat">💬 Chat de Amor</button>
+  <!-- PANTALLA PRINCIPAL DE LA APP -->
+  <div id="app-screen" class="screen hidden">
+    <header class="app-header">
+      <div class="header-content">
+        <h1>Nuestra Agenda 💌</h1>
+        <div class="peru-clock-box">
+          <span class="clock-label">🇵🇪 Perú:</span>
+          <span id="peru-clock">--:--:--</span>
+        </div>
       </div>
-      <button id="logout-btn" class="btn-secondary">Cerrar Sesión 🔒</button>
+      <button id="logout-btn" class="btn-logout">Salir 🚪</button>
     </header>
-    
-    <!-- Modal del Chat de Amor -->
-    <div id="chat-modal" class="modal hidden">
-      <div class="modal-content chat-modal-content">
-        <div class="chat-header">
-          <h3>💖 Chat de Amor 💬</h3>
-          <button id="close-chat-btn" class="close-btn">&times;</button>
-        </div>
-        <div id="chat-messages" class="chat-messages">
-          <!-- Los mensajes en tiempo real se cargan aquí -->
-        </div>
-        <form id="chat-form" class="chat-input-area">
-          <input type="text" id="chat-input" placeholder="Escribe un mensaje bonito..." autocomplete="off" required />
-          <button type="submit" class="btn-send">Enviar 💕</button>
-        </form>
-      </div>
-    </div>
- 
-    <!-- MENSAJE BONITO DEL DÍA -->
-    <section class="daily-message-box">
-      <span class="sparkle">✨ Mensaje del día ✨</span>
-      <p id="daily-message">Cargando inspiración romántica...</p>
-    </section>
 
-    <!-- SECCIÓN CALENDARIO Y EVENTOS -->
-    <main class="main-content">
-      <section class="calendar-section">
-        <h3>📅 Selecciona una Fecha</h3>
-        <div class="input-group">
-          <input type="date" id="event-date">
-        </div>
-        
-        <div class="add-event-box">
-          <h4>Agregar Nuevo Evento / Nota</h4>
-          <div class="input-group">
-            <input type="time" id="event-time" required>
-          </div>
-          <div class="input-group">
-            <input type="text" id="event-title" placeholder="¿Qué tienes planeado hoy?" required>
-          </div>
-          <div class="input-group">
-            <textarea id="event-desc" placeholder="Detalles o notas importantes..."></textarea>
-          </div>
-          <button id="save-event-btn" class="btn-primary">Guardar en Mi Agenda 💖</button>
-        </div>
+    <main class="app-main">
+      <!-- MÓDULO DEL MENSAJE DIARIO -->
+      <section class="card daily-card">
+        <h3>✨ Mensaje del día ✨</h3>
+        <p id="daily-message" class="romantic-text">Cargando un lindo mensaje...</p>
       </section>
 
-      <section class="events-section">
-        <h3>📋 Mis Eventos para la Fecha</h3>
-        <div id="events-list" class="events-list">
-          <p class="empty-msg">Selecciona una fecha para ver tus compromisos.</p>
+      <!-- AGREGAR EVENTO / NOTA -->
+      <section class="card form-card">
+        <h3>Añadir Nota o Evento 📝</h3>
+        <div class="form-grid">
+          <div class="input-group">
+            <label for="event-date">Fecha:</label>
+            <input type="date" id="event-date" required />
+          </div>
+          <div class="input-group">
+            <label for="event-time">Hora:</label>
+            <input type="time" id="event-time" required />
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="event-title">Título / Asunto:</label>
+          <input type="text" id="event-title" placeholder="Ej: Cena juntos, Comprar regalo..." required />
+        </div>
+        <div class="input-group">
+          <label for="event-desc">Detalles / Nota:</label>
+          <textarea id="event-desc" placeholder="Detalles de lo que haremos..." rows="2"></textarea>
+        </div>
+        <button id="save-event-btn" class="btn-primary">Guardar en la Agenda 💖</button>
+      </section>
+
+      <!-- LISTA DE EVENTOS -->
+      <section class="card list-card">
+        <h3>Nuestros Planes 📌</h3>
+        <div id="events-list" class="events-container">
+          <!-- Los eventos se cargarán dinámicamente -->
         </div>
       </section>
     </main>
+
+    <!-- BOTÓN FLOTANTE PARA EL CHAT -->
+    <button id="open-chat-btn" class="chat-fab">💬</button>
   </div>
 
-    <!-- Modal de Confirmación de Borrado Personalizado -->
-    <div id="delete-modal" class="modal hidden">
-    <div class="modal-content delete-modal-content">
-        <div class="delete-icon-wrapper">
-        <span>🗑️</span>
-        </div>
-        <h3 class="delete-modal-title">¿Eliminar este evento?</h3>
-        <p class="delete-modal-text">Esta acción borrará la nota de tu agenda y no se podrá recuperar. ¿Deseas continuar?</p>
-        <div class="modal-actions">
-        <button id="cancel-delete-btn" class="btn btn-secondary">Cancelar</button>
-        <button id="confirm-delete-btn" class="btn btn-danger">Sí, eliminar</button>
-        </div>
-    </div>
-    </div>
-
-  <!-- MODAL DE EDICIÓN -->
+  <!-- MODAL DE EDICIÓN DE EVENTO -->
   <div id="edit-modal" class="modal hidden">
-    <div class="modal-content">
-      <h3>✏️ Editar Evento</h3>
+    <div class="modal-content card">
+      <h3>Editar Nota ✏️</h3>
       <input type="hidden" id="edit-event-id">
       <div class="input-group">
-        <input type="time" id="edit-event-time" required>
+        <label for="edit-event-time">Hora:</label>
+        <input type="time" id="edit-event-time" required />
       </div>
       <div class="input-group">
-        <input type="text" id="edit-event-title" placeholder="¿Qué tienes planeado hoy?" required>
+        <label for="edit-event-title">Título:</label>
+        <input type="text" id="edit-event-title" required />
       </div>
       <div class="input-group">
-        <textarea id="edit-event-desc" placeholder="Detalles o notas importantes..."></textarea>
+        <label for="edit-event-desc">Detalles:</label>
+        <textarea id="edit-event-desc" rows="3"></textarea>
       </div>
-      <div class="modal-buttons">
-        <button id="update-event-btn" class="btn-primary">Guardar Cambios ✨</button>
+      <div class="modal-actions">
         <button id="close-modal-btn" class="btn-secondary">Cancelar</button>
+        <button id="update-event-btn" class="btn-primary">Guardar Cambios</button>
       </div>
     </div>
   </div>
-  <!-- Modal de Alerta (Campos incompletos) -->
-    <div id="alert-modal" class="modal hidden">
-    <div class="modal-content alert-modal-content">
-        <div class="alert-icon-wrapper">
-        <span>⚠️</span>
-        </div>
-        <h3 class="alert-modal-title">Faltan datos</h3>
-        <p class="alert-modal-text" id="alert-modal-msg">Por favor completa la hora, fecha y el título del evento para poder guardarlo.</p>
-        <div class="modal-actions">
-        <button id="close-alert-btn" class="btn btn-primary">Entendido</button>
-        </div>
+
+  <!-- MODAL DE CONFIRMACIÓN DE ELIMINACIÓN -->
+  <div id="delete-modal" class="modal hidden">
+    <div class="modal-content card alert-card">
+      <h3>¿Eliminar esta nota? 🗑️</h3>
+      <p>Esta acción no se puede deshacer.</p>
+      <div class="modal-actions">
+        <button id="cancel-delete-btn" class="btn-secondary">Cancelar</button>
+        <button id="confirm-delete-btn" class="btn-danger">Sí, Eliminar</button>
+      </div>
     </div>
+  </div>
+
+  <!-- MODAL DE ALERTA GENERAL -->
+  <div id="alert-modal" class="modal hidden">
+    <div class="modal-content card alert-card">
+      <h3 id="alert-modal-title">Atención ⚠️</h3>
+      <p id="alert-modal-msg">Mensaje de alerta...</p>
+      <div class="modal-actions">
+        <button id="close-alert-btn" class="btn-primary">Entendido</button>
+      </div>
     </div>
-  <!-- FIREBASE SDKs -->
+  </div>
+
+  <!-- MODAL DEL CHAT EN TIEMPO REAL -->
+  <div id="chat-modal" class="modal hidden">
+    <div class="modal-content card chat-card">
+      <div class="chat-header">
+        <h3>Nuestro Chat 💬</h3>
+        <button id="close-chat-btn" class="close-btn">&times;</button>
+      </div>
+      <div id="chat-messages" class="chat-messages">
+        <!-- Los mensajes se cargarán dinámicamente -->
+      </div>
+      <form id="chat-form" class="chat-input-area">
+        <input type="text" id="chat-input" placeholder="Escribe un mensaje..." autocomplete="off" required />
+        <button type="submit" class="btn-primary send-btn">Enviar</button>
+      </form>
+    </div>
+  </div>
+
   <script type="module" src="script.js"></script>
 </body>
 </html>
