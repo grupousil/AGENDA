@@ -1,16 +1,33 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import { getFirestore, collection, addDoc, query, where, onSnapshot, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+import { 
+  getAuth, 
+  signInWithEmailAndPassword, 
+  onAuthStateChanged, 
+  signOut 
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  query, 
+  where, 
+  onSnapshot, 
+  doc, 
+  updateDoc, 
+  deleteDoc, 
+  orderBy, 
+  serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
-// Tu configuración de Firebase
+// Configuración de Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyDxSn9WZWhqBAKRzCBzgA3vhL7QvnQaOpI",
-    authDomain: "agenda-92a09.firebaseapp.com",
-    projectId: "agenda-92a09",
-    storageBucket: "agenda-92a09.firebasestorage.app",
-    messagingSenderId: "595953890665",
-    appId: "1:595953890665:web:1293dc773a32f1cff3f9f8",
-    measurementId: "G-8BVJM739Y3"
+  apiKey: "AIzaSyDxSn9WZWhqBAKRzCBzgA3vhL7QvnQaOpI",
+  authDomain: "agenda-92a09.firebaseapp.com",
+  projectId: "agenda-92a09",
+  storageBucket: "agenda-92a09.firebasestorage.app",
+  messagingSenderId: "595953890665",
+  appId: "1:595953890665:web:1293dc773a32f1cff3f9f8",
+  measurementId: "G-8BVJM739Y3"
 };
 
 // Inicializar Firebase
@@ -97,13 +114,11 @@ const alertModal = document.getElementById('alert-modal');
 const alertModalMsg = document.getElementById('alert-modal-msg');
 const closeAlertBtn = document.getElementById('close-alert-btn');
 
-// Función helper para mostrar el modal de alerta con un mensaje personalizado
 function showAlertModal(message) {
   alertModalMsg.textContent = message;
   alertModal.classList.remove('hidden');
 }
 
-// Ocultar modal de alerta
 closeAlertBtn.addEventListener('click', () => {
   alertModal.classList.add('hidden');
 });
@@ -124,7 +139,6 @@ saveBtn.addEventListener('click', async () => {
   const desc = document.getElementById('event-desc').value;
   const date = dateInput.value;
 
-  // Validación con el nuevo modal flotante
   if (!time || !title || !date) {
     showAlertModal("Por favor completa la hora, fecha y el título de la nota antes de guardar.");
     return;
@@ -190,13 +204,11 @@ function loadUserEvents() {
       eventsList.appendChild(card);
     });
 
-    // Eventos para botones
     document.querySelectorAll('.delete-btn').forEach(btn => {
-    btn.addEventListener('click', (e) => {
+      btn.addEventListener('click', (e) => {
         const targetBtn = e.target.closest('.delete-btn');
-        const docId = targetBtn.dataset.id;
-        deleteEvent(docId);
-    });
+        deleteEvent(targetBtn.dataset.id);
+      });
     });
 
     document.querySelectorAll('.edit-btn').forEach(btn => {
@@ -211,59 +223,41 @@ function loadUserEvents() {
 }
 
 // 6. ELIMINAR EVENTO
-
-// Variable global para almacenar el ID del elemento a eliminar
 let pendingDeleteDocId = null;
-
-// Referencias a los elementos del modal de eliminación
 const deleteModal = document.getElementById('delete-modal');
 const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
 const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
 
-// Función que se ejecuta al presionar el botón del tacho de basura en la tarjeta
 function deleteEvent(docId) {
   pendingDeleteDocId = docId;
-  deleteModal.classList.remove('hidden'); // Muestra el modal
+  deleteModal.classList.remove('hidden');
 }
 
-// Ocultar modal al presionar "Cancelar"
-cancelDeleteBtn.addEventListener('click', () => {
-  closeDeleteModal();
-});
+cancelDeleteBtn.addEventListener('click', closeDeleteModal);
 
-// Ocultar modal si hacen clic fuera del cuadro blanco
 deleteModal.addEventListener('click', (e) => {
-  if (e.target === deleteModal) {
-    closeDeleteModal();
-  }
+  if (e.target === deleteModal) closeDeleteModal();
 });
 
-// Confirmar la eliminación en Firebase
 confirmDeleteBtn.addEventListener('click', async () => {
   if (pendingDeleteDocId) {
     try {
-      // 1. Guardamos el ID a eliminar
       const idToDelete = pendingDeleteDocId;
-      
-      // 2. Cerramos e inicializamos inmediatamente el modal
       closeDeleteModal();
-
-      // 3. Eliminamos el documento de Firestore
       await deleteDoc(doc(db, "events", idToDelete));
     } catch (error) {
       console.error("Error al eliminar: ", error);
-      alert("No se pudo eliminar el evento. Revisa las reglas de seguridad de Firebase.");
+      showAlertModal("No se pudo eliminar el evento. Revisa las reglas de seguridad de Firebase.");
     }
   }
 });
 
-// Función auxiliar para cerrar y limpiar la variable
 function closeDeleteModal() {
   pendingDeleteDocId = null;
   deleteModal.classList.add('hidden');
 }
 
-// 7. EDITAR EVENTO (MODAL)
+// 7. EDITAR EVENTO
 const editModal = document.getElementById('edit-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const updateEventBtn = document.getElementById('update-event-btn');
@@ -287,7 +281,7 @@ updateEventBtn.addEventListener('click', async () => {
   const newDesc = document.getElementById('edit-event-desc').value;
 
   if (!newTime || !newTitle) {
-    alert("Por favor completa el título y la hora.");
+    showAlertModal("Por favor completa el título y la hora.");
     return;
   }
 
@@ -301,6 +295,82 @@ updateEventBtn.addEventListener('click', async () => {
     editModal.classList.add('hidden');
   } catch (error) {
     console.error("Error al actualizar: ", error);
-    alert("No se pudo guardar la edición. Verifica las reglas en la consola de Firebase.");
+    showAlertModal("No se pudo guardar la edición. Verifica las reglas en la consola de Firebase.");
+  }
+});
+
+// 8. CHAT EN TIEMPO REAL
+const openChatBtn = document.getElementById('open-chat-btn');
+const closeChatBtn = document.getElementById('close-chat-btn');
+const chatModal = document.getElementById('chat-modal');
+const chatForm = document.getElementById('chat-form');
+const chatInput = document.getElementById('chat-input');
+const chatMessages = document.getElementById('chat-messages');
+
+let unsubscribeChat = null;
+
+openChatBtn.addEventListener('click', () => {
+  chatModal.classList.remove('hidden');
+  listenChatMessages();
+});
+
+closeChatBtn.addEventListener('click', () => {
+  chatModal.classList.add('hidden');
+  if (unsubscribeChat) unsubscribeChat();
+});
+
+chatModal.addEventListener('click', (e) => {
+  if (e.target === chatModal) {
+    chatModal.classList.add('hidden');
+    if (unsubscribeChat) unsubscribeChat();
+  }
+});
+
+function listenChatMessages() {
+  const q = query(
+    collection(db, "chat_messages"),
+    orderBy("createdAt", "asc")
+  );
+
+  unsubscribeChat = onSnapshot(q, (snapshot) => {
+    chatMessages.innerHTML = "";
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const isMine = currentUser && data.userId === currentUser.uid;
+      
+      const bubble = document.createElement('div');
+      bubble.className = `chat-bubble ${isMine ? 'mine' : 'other'}`;
+      
+      const dateObj = data.createdAt ? data.createdAt.toDate() : new Date();
+      const timeStr = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      bubble.innerHTML = `
+        <div>${data.text}</div>
+        <span class="chat-time">${timeStr}</span>
+      `;
+      
+      chatMessages.appendChild(bubble);
+    });
+    
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  });
+}
+
+chatForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const text = chatInput.value.trim();
+  if (!text || !currentUser) return;
+
+  chatInput.value = "";
+
+  try {
+    await addDoc(collection(db, "chat_messages"), {
+      userId: currentUser.uid,
+      userEmail: currentUser.email,
+      text: text,
+      createdAt: serverTimestamp()
+    });
+  } catch (error) {
+    console.error("Error enviando mensaje: ", error);
   }
 });

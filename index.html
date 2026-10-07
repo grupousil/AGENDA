@@ -35,10 +35,28 @@
       <div class="time-box">
         <span class="label">Hora Perú (PET):</span>
         <span id="peru-clock">00:00:00 AM</span>
+        <button id="open-chat-btn" class="btn-love-chat">💬 Chat de Amor</button>
       </div>
       <button id="logout-btn" class="btn-secondary">Cerrar Sesión 🔒</button>
     </header>
-
+    
+    <!-- Modal del Chat de Amor -->
+    <div id="chat-modal" class="modal hidden">
+      <div class="modal-content chat-modal-content">
+        <div class="chat-header">
+          <h3>💖 Chat de Amor 💬</h3>
+          <button id="close-chat-btn" class="close-btn">&times;</button>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+          <!-- Los mensajes en tiempo real se cargan aquí -->
+        </div>
+        <form id="chat-form" class="chat-input-area">
+          <input type="text" id="chat-input" placeholder="Escribe un mensaje bonito..." autocomplete="off" required />
+          <button type="submit" class="btn-send">Enviar 💕</button>
+        </form>
+      </div>
+    </div>
+ 
     <!-- MENSAJE BONITO DEL DÍA -->
     <section class="daily-message-box">
       <span class="sparkle">✨ Mensaje del día ✨</span>
