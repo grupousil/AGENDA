@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuestra Agenda de Amor</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Sacramento&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- PANTALLA DE LOGIN -->
+  <div id="login-screen" class="card-container">
+    <div class="login-box">
+      <div class="heart-icon">❤️</div>
+      <h2>Nuestro Rincón Especial</h2>
+      <p class="sub-text">Ingresa tu cuenta para acceder a tu agenda</p>
+      
+      <form id="login-form">
+        <div class="input-group">
+          <input type="email" id="email" placeholder="Correo electrónico" required>
+        </div>
+        <div class="input-group">
+          <input type="password" id="password" placeholder="Contraseña" required>
+        </div>
+        <button type="submit" class="btn-primary">Entrar con Amor ✨</button>
+      </form>
+      <p id="auth-error" class="error-msg"></p>
+    </div>
+  </div>
+
+  <!-- PANTALLA PRINCIPAL (DASHBOARD) -->
+  <div id="app-screen" class="app-container hidden">
+    <header class="header">
+      <div class="time-box">
+        <span class="label">Hora Perú (PET):</span>
+        <span id="peru-clock">00:00:00 AM</span>
+      </div>
+      <button id="logout-btn" class="btn-secondary">Cerrar Sesión 🔒</button>
+    </header>
+
+    <!-- MENSAJE BONITO DEL DÍA -->
+    <section class="daily-message-box">
+      <span class="sparkle">✨ Mensaje del día ✨</span>
+      <p id="daily-message">Cargando inspiración romántica...</p>
+    </section>
+
+    <!-- SECCIÓN CALENDARIO Y EVENTOS -->
+    <main class="main-content">
+      <section class="calendar-section">
+        <h3>📅 Selecciona una Fecha</h3>
+        <div class="input-group">
+          <input type="date" id="event-date">
+        </div>
+        
+        <div class="add-event-box">
+          <h4>Agregar Nuevo Evento / Nota</h4>
+          <div class="input-group">
+            <input type="time" id="event-time" required>
+          </div>
+          <div class="input-group">
+            <input type="text" id="event-title" placeholder="¿Qué tienes planeado hoy?" required>
+          </div>
+          <div class="input-group">
+            <textarea id="event-desc" placeholder="Detalles o notas importantes..."></textarea>
+          </div>
+          <button id="save-event-btn" class="btn-primary">Guardar en Mi Agenda 💖</button>
+        </div>
+      </section>
+
+      <section class="events-section">
+        <h3>📋 Mis Eventos para la Fecha</h3>
+        <div id="events-list" class="events-list">
+          <p class="empty-msg">Selecciona una fecha para ver tus compromisos.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+    <!-- Modal de Confirmación de Borrado Personalizado -->
+    <div id="delete-modal" class="modal hidden">
+    <div class="modal-content delete-modal-content">
+        <div class="delete-icon-wrapper">
+        <span>🗑️</span>
+        </div>
+        <h3 class="delete-modal-title">¿Eliminar este evento?</h3>
+        <p class="delete-modal-text">Esta acción borrará la nota de tu agenda y no se podrá recuperar. ¿Deseas continuar?</p>
+        <div class="modal-actions">
+        <button id="cancel-delete-btn" class="btn btn-secondary">Cancelar</button>
+        <button id="confirm-delete-btn" class="btn btn-danger">Sí, eliminar</button>
+        </div>
+    </div>
+    </div>
+
+  <!-- MODAL DE EDICIÓN -->
+  <div id="edit-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3>✏️ Editar Evento</h3>
+      <input type="hidden" id="edit-event-id">
+      <div class="input-group">
+        <input type="time" id="edit-event-time" required>
+      </div>
+      <div class="input-group">
+        <input type="text" id="edit-event-title" placeholder="¿Qué tienes planeado hoy?" required>
+      </div>
+      <div class="input-group">
+        <textarea id="edit-event-desc" placeholder="Detalles o notas importantes..."></textarea>
+      </div>
+      <div class="modal-buttons">
+        <button id="update-event-btn" class="btn-primary">Guardar Cambios ✨</button>
+        <button id="close-modal-btn" class="btn-secondary">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal de Alerta (Campos incompletos) -->
+    <div id="alert-modal" class="modal hidden">
+    <div class="modal-content alert-modal-content">
+        <div class="alert-icon-wrapper">
+        <span>⚠️</span>
+        </div>
+        <h3 class="alert-modal-title">Faltan datos</h3>
+        <p class="alert-modal-text" id="alert-modal-msg">Por favor completa la hora, fecha y el título del evento para poder guardarlo.</p>
+        <div class="modal-actions">
+        <button id="close-alert-btn" class="btn btn-primary">Entendido</button>
+        </div>
+    </div>
+    </div>
+  <!-- FIREBASE SDKs -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
