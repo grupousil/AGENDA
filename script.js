@@ -301,7 +301,7 @@ updateEventBtn.addEventListener('click', async () => {
 
 // 8. CHAT EN TIEMPO REAL
 const openChatBtn = document.getElementById('open-chat-btn');
-closeChatBtn = document.getElementById('close-chat-btn');
+const closeChatBtn = document.getElementById('close-chat-btn');
 const chatModal = document.getElementById('chat-modal');
 const chatForm = document.getElementById('chat-form');
 const chatInput = document.getElementById('chat-input');
@@ -373,4 +373,4 @@ chatForm.addEventListener('submit', async (e) => {
   } catch (error) {
     console.error("Error enviando mensaje: ", error);
   }
-})
+});
